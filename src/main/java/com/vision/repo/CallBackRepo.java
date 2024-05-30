@@ -12,7 +12,10 @@ import com.vision.entity.AllCallbacks;
 @Repository
 public interface CallBackRepo extends JpaRepository<AllCallbacks, Integer>{
 	
-	@Query(value="select * from all_callbacks where status=:status",nativeQuery = true)
-	List<AllCallbacks> findByStatus(@Param("status") String status);
+	@Query(value="select * from all_callbacks where status='0' AND TYPE=:type",nativeQuery = true)
+	List<AllCallbacks> findByType(@Param("type") String type);
+	
+	@Query(value="SELECT * FROM all_callbacks WHERE STATUS='0' AND TYPE=:type AND operator=:operator",nativeQuery = true)
+	List<AllCallbacks> findByOperator(@Param("type") String type, @Param("operator") String operator);
 
 }

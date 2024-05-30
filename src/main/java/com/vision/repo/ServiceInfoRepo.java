@@ -10,8 +10,8 @@ import com.vision.entity.ServiceInfo;
 @Repository
 public interface ServiceInfoRepo extends JpaRepository<ServiceInfo, Integer>{
 	
-	@Query(value="select * from service_info where status=:status",nativeQuery = true)
-	ServiceInfo findByStatus(@Param("status") String status);
+	@Query(value="SELECT * FROM service_info WHERE operatorId=:operatorId AND applicationId=:applicationId",nativeQuery = true)
+	ServiceInfo findByOperatorid(@Param("operatorId") String operatorId, @Param("applicationId") String applicationId);
 	
 
 }

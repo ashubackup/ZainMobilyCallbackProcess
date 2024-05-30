@@ -24,11 +24,7 @@ public class TblSmsLogs {
 	private String ani;
 	private String request;
 	private String response;
-	private String body;
 	private LocalDateTime dateTime;
-	private String msg;
-	private String password;
-	private String operator;
 	
 
 }

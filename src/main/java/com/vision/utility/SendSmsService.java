@@ -73,37 +73,37 @@ public class SendSmsService {
 	    }
 	}
 	
-	public String decreptedSignatureService(String msisdn, String language)
-	{
-		ServiceInfo serviceInfo = infoRepo.findByStatus("0");
-		System.out.println(serviceInfo);
-		String decryptedSignature;
-		try {
-			
-			if(serviceInfo != null ) 
-			{
-				decryptedSignature = "ApiKey=" + urlEncode(serviceInfo.getApiKey()) +
-						"&ApiSecret=" + urlEncode(serviceInfo.getApiSecret()) +
-						"&ApplicationId=" + urlEncode(serviceInfo.getApplicationId()) +
-						"&CountryId=" + urlEncode(serviceInfo.getCountryId()) +
-						"&OperatorId=" + urlEncode(serviceInfo.getOperatorId()) +
-						"&CpId=" + urlEncode(serviceInfo.getCpId()) +
-						"&MSISDN=" + urlEncode(msisdn.toUpperCase()) +
-						"&Timestamp=" + urlEncode(LocalDateTime.now().toString())+
-						"&Lang=" + urlEncode(language.toUpperCase()) +
-						"&ShortCode=" + urlEncode(serviceInfo.getShortcode()) +
-						"&Method=" + "RequestPinCode";
-				return decryptedSignature;
-			}else {
-				System.out.println("Service info data is null");
-				return null;
-			}
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
-	}
+//	public String decreptedSignatureService------(String msisdn, String language,String operatorId)
+//	{
+//		ServiceInfo serviceInfo = infoRepo.findByOperatorid(operatorId);
+//		System.out.println(serviceInfo);
+//		String decryptedSignature;
+//		try {
+//			
+//			if(serviceInfo != null ) 
+//			{
+//				decryptedSignature = "ApiKey=" + urlEncode(serviceInfo.getApiKey()) +
+//						"&ApiSecret=" + urlEncode(serviceInfo.getApiSecret()) +
+//						"&ApplicationId=" + urlEncode(serviceInfo.getApplicationId()) +
+//						"&CountryId=" + urlEncode(serviceInfo.getCountryId()) +
+//						"&OperatorId=" + urlEncode(serviceInfo.getOperatorId()) +
+//						"&CpId=" + urlEncode(serviceInfo.getCpId()) +
+//						"&MSISDN=" + urlEncode(msisdn.toUpperCase()) +
+//						"&Timestamp=" + urlEncode(LocalDateTime.now().toString())+
+//						"&Lang=" + urlEncode(language.toUpperCase()) +
+//						"&ShortCode=" + urlEncode(serviceInfo.getShortcode()) +
+//						"&Method=" + "RequestPinCode";
+//				return decryptedSignature;
+//			}else {
+//				System.out.println("Service info data is null");
+//				return null;
+//			}
+//		}catch(Exception e)
+//		{
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 	public String calculateHMACSHA256(String key, String data) 
 	{
 		

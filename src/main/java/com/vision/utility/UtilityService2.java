@@ -34,21 +34,10 @@ import com.vision.repo.TblSubscriptionLogsRepo;
 
 @Service
 public class UtilityService2 {
-	
-
-
 	@Autowired
 	private TblSmsLogsRepo smsLogsRepo;
 	@Autowired
-	private UtilityService utilityService;
-	
-	@Autowired
 	private TblSubscriptionLogsRepo subLogsRepo;
-	
-
-	
-	//private static String requestId;
-	
 	
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
@@ -203,9 +192,7 @@ public class UtilityService2 {
 	    return encryptedSignature;
 	}
 	
-//	public String customURLEncoder(String value) throws UnsupportedEncodingException {
-//	    return URLEncoder.encode(value, "UTF-8");
-//	}
+
 	public String customURLEncoder(String value) throws UnsupportedEncodingException {
 	    return URLEncoder.encode(value, "UTF-8").replaceAll("\\+", "%20").replaceAll("%2B", "%2b");
 	}
@@ -239,52 +226,7 @@ public class UtilityService2 {
         return hexStringBuilder.toString();
     }
 	
-//	@MethodOverloadingInfo("This method will build data in json format for request pin & Subscription")
-//	public JSONObject buildJSON(ServiceInfo serviceInfo, WebInfo webInfo, String host, String signature, String dateTime)
-//	{
-//		
-//		JSONObject json = new JSONObject();
-//		json.put("MSISDN", webInfo.getMobileNumber());
-//		json.put("apiKey", serviceInfo.getApiKey());
-//		json.put("signature", signature);
-//		json.put("cpId", serviceInfo.getCpId());
-//		json.put("ipAddress", host);
-//		json.put("shortcode", serviceInfo.getShortcode());
-//		json.put("lpUrl", "https://kiddocraze.thehappytubes.com");
-//		json.put("requestId", webInfo.getEvinaRequestId().toString());
-//		json.put("timestamp", dateTime);
-//		json.put("applicationId", serviceInfo.getApplicationId());
-//		json.put("countryId", serviceInfo.getCountryId());
-//		json.put("operatorId", serviceInfo.getOperatorId());
-//		json.put("lang", webInfo.getLanguage().toLowerCase());
-//		json.put("pubId", "");
-//		json.put("adpartnername", "");
-//		
-//		return json;
-//	}
-	
-//	@MethodOverloadingInfo("This method will build data in json format for valid pin")
-//	public JSONObject buildJSON(ServiceInfo serviceInfo, WebInfo webInfo, String signature, String dateTime)
-//	{
-//		
-//		JSONObject json = new JSONObject();
-//		json.put("MSISDN", webInfo.getMobileNumber());
-//		json.put("apiKey", serviceInfo.getApiKey());
-//		json.put("signature", signature);
-//		json.put("cpId", serviceInfo.getCpId());
-//		json.put("shortcode", serviceInfo.getShortcode());
-//		json.put("requestId", webInfo.getEvinaRequestId().toString());
-//		json.put("timestamp", dateTime);
-//		json.put("code", webInfo.getCode());
-//		json.put("applicationId", serviceInfo.getApplicationId());
-//		json.put("countryId", serviceInfo.getCountryId());
-//		json.put("operatorId", serviceInfo.getOperatorId());
-//		json.put("lang", webInfo.getLanguage().toLowerCase());
-//		json.put("pubId", "");
-//		json.put("adpartnername", "");
-//		
-//		return json;
-//	}
+
 	
 	@MethodOverloadingInfo("This method will build data in json format for send sms")
 	public JSONObject buildJSON(ServiceInfo serviceInfo, String msisdn, String language, String evinaRequestId, String signature, String message, String dateTime)
@@ -306,134 +248,6 @@ public class UtilityService2 {
 	
 		return json;
 	}
-	
-	
-//	public String requestPinApiCall(JSONObject json)
-//	{
-//		System.out.println("Request pin json is : ------" + json);
-//        RestTemplate restTemplate = new RestTemplate();
-//        String apiUrl = "http://ksg.intech-mena.com/MSG/v1.1/API/RequestPinCode";
-//        
-//        System.out.println("MSISDN : " + json.get("MSISDN"));
-//        
-//        try {
-//        	
-//        	HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_JSON);
-//            //headers.set("Signature", json.getString("signature"));
-//            
-//           // System.out.println("New ------"+json.getString("signature"));
-//    		//headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-//    		
-//			HttpEntity<String> entity = new HttpEntity<>(json.toString(), headers);
-//			System.out.println("Request entity---: " + entity);
-//
-//	        ResponseEntity<String > responseEntity = restTemplate.postForEntity(apiUrl, entity, String.class);
-//	        String body = responseEntity.getBody();
-//	        
-//	        System.out.println("Body ---: "+ body);
-//	        System.out.println("ResponseEntity is ----:" + responseEntity);
-//	        
-//	        RequestPinLogs requestPin = new RequestPinLogs();
-//	        requestPin.setMsisdn(json.getString("MSISDN"));
-//	        requestPin.setDateTime(LocalDateTime.now());
-//	        requestPin.setRequest(entity.toString()); 
-//	        requestPin.setResponse(responseEntity.toString());
-//	        requestPin.setStatusCode(responseEntity.getStatusCode().toString());
-//	        requestPin.setStatus("0");
-//	        System.out.println("Request Pin : " + requestPin);
-//	        
-//	        requestRepo.save(requestPin);
-//	        
-//	        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-//	            System.out.println("API call successful");
-//	            if(body.contains("100") || body.contains("Your request has been processed successfully"))
-//	            {
-//	            	System.out.println("Inside request pin success ===========");
-//	            	return "Success";
-//	            }else if(body.contains("4") || body.contains("User already subscribed to the service")) {
-//	            	return "4";
-//	            }else if(body.contains("14") || body.contains("Not enough balance"))
-//	            {
-//	            	return "Not enough balance";
-//	            }else if(body.contains("R3") || body.contains("You already requested a pin. Please try again later.")) {
-//	            	return "You already requested a pin. Please try again later.";
-//	            }else {
-//	            	return "Something went wrong. Please try again.";
-//	            }
-//	        } else {
-//	            System.out.println("API call failed");
-//	            return "Failed";
-//	        }
-//		}catch (HttpServerErrorException.InternalServerError e) {
-//		    // Log the details of the 500 Internal Server Error
-//		    System.out.println("HTTP Status Code:---- " + e.getStatusCode());
-//		    System.out.println("Response Body:---- " + e.getResponseBodyAsString());
-//		    e.printStackTrace();
-//		    
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//        return "Failed";
-//	}
-	
-//	public String validatePinApi(JSONObject json)
-//	{
-//        RestTemplate restTemplate = new RestTemplate();
-//        String apiUrl = "http://ksg.intech-mena.com/MSG/v1.1/API/ValidatePinCode";
-//        System.out.println("MSISDN : " + json.get("MSISDN"));
-//        try {
-//        	HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_JSON);
-//    		//headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-//    		
-//    		
-//			HttpEntity<String> entity = new HttpEntity<>(json.toString(), headers);
-//			System.out.println("Request : " + entity);
-//
-//	        ResponseEntity<String > responseEntity = restTemplate.postForEntity(apiUrl, entity, String.class);
-//	        String body = responseEntity.getBody();
-//	        System.out.println("Body : "+ body);
-//	        System.out.println("ResponseEntity is :" + responseEntity);
-//	        
-//	        ValidationPinLogs validPin = new ValidationPinLogs();
-//	        validPin.setMsisdn(json.getString("MSISDN"));
-//	        validPin.setDateTime(LocalDateTime.now());
-//	        validPin.setRequest(entity.toString()); 
-//	        validPin.setResponse(responseEntity.toString());
-//	        validPin.setStatusCode(responseEntity.getStatusCode().toString());
-//	        validPin.setPinCode(json.getString("code"));
-//	        validPin.setStatus("0");
-//	        System.out.println("Request Pin : " + validPin);
-//	        
-//	        validRepo.save(validPin);
-//	        
-//	        if (responseEntity.getStatusCode().is2xxSuccessful()) 
-//	        {
-//	        	System.out.println("API call successful");
-//	        	 if(body.contains("100") || body.contains("Your request has been processed successfully"))
-//	        	 {
-//	        		System.out.println("Inside validPin success ===========");
-//		            return "Success";
-//		         }else if(body.contains("4") || body.contains("User already subscribed to the service")) {
-//		            	return "4";
-//	             }else if(body.contains("14") || body.contains("Not enough balance")){
-//	            	return "Not enough balance";
-//	             }else if(body.contains("R3") || body.contains("You already requested a pin. Please try again later.")) {
-//	            	return "You already requested a pin. Please try again later.";
-//	             }else {
-//	            	return "Something went wrong. Please try again.";
-//	             }
-//	        } else {
-//	            System.out.println("API call failed");
-//	            return "Failed";
-//	        }
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//        return "Failed";
-//	}
-	
 	
 	public String subscriptionApiCall(JSONObject json)
 	{
@@ -509,7 +323,7 @@ public class UtilityService2 {
 	}
 	
 	
-	public String sendSmsApiCall(JSONObject json, String password, String operator)
+	public String sendSmsApiCall(JSONObject json, String password, String operatorId)
 	{
         RestTemplate restTemplate = new RestTemplate();
         String apiUrl = "http://ksg.intech-mena.com/MSG/v1.1/API/SendSMS";
@@ -531,10 +345,6 @@ public class UtilityService2 {
 	        smsLogs.setDateTime(LocalDateTime.now());
 	        smsLogs.setRequest(entity.toString());
 	        smsLogs.setResponse(responseEntity.toString());
-	        smsLogs.setBody(body);
-	        smsLogs.setMsg(json.getString("msgText")); 
-	        smsLogs.setPassword(password); 
-	        smsLogs.setOperator(operator);      
 	        smsLogsRepo.save(smsLogs);
 	        
 	        if(responseEntity.getStatusCode().is2xxSuccessful()) 

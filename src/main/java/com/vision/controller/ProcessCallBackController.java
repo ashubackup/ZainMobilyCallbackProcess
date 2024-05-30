@@ -3,24 +3,52 @@ package com.vision.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.vision.service.CallBackProcessService;
+
+import com.vision.service.RenewalCallBackService;
+import com.vision.service.SubCallbackService;
+import com.vision.service.UnsubCallbackService;
+
 
 //@RestController
 @Component
 public class ProcessCallBackController {
 	
 	@Autowired
-	private CallBackProcessService callbackProcess;
+	private SubCallbackService subService;
+	@Autowired
+	private UnsubCallbackService unsubService;
+	@Autowired
+	private RenewalCallBackService renService;
 	
-	//@GetMapping("/get")
+	//@GetMapping("/sub")
 	@Scheduled(fixedDelay = 1000L)
-	public void processCallBack()
+	public void subCallBackProcess()
 	{
-		callbackProcess.getCallback();
+		subService.subCallbackProcess("SUBSCRIBE", "16");
 		
 	}
-
+	//@GetMapping("/sub")
+	@Scheduled(fixedDelay = 2000L)
+	public void subCallBackProcessZain()
+	{
+		subService.subCallbackProcess("SUBSCRIBE", "8");
+		
+	}
+	
+	//@GetMapping("/ren")
+	@Scheduled(fixedDelay = 3000L)
+	public void renCallBackProcess()
+	{
+		renService.renCallbackProcess("RENEWAL");
+		
+	}
+	
+	//@GetMapping("/unsub")
+	@Scheduled(fixedDelay = 80000L)
+	public void unsubCallBackProcess()
+	{
+		unsubService.unsubCallbackProcess("UNSUBSCRIBE");
+		
+	}
 }

@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -25,12 +27,10 @@ public class TblUnsubscription {
 	private String ani;
 	private LocalDateTime dateTime;
 	private LocalDate unsubDateTime;
-	private String countryId;
-	private String requestId;
 	private String operatorId;
 	private String type;
-	private String subType;
-	private String operator;
-	private String unsubStatus;
+	private String pack;
+	private String serviceName;
+	private String applicationId;
 
 }
